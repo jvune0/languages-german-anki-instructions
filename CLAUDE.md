@@ -30,12 +30,16 @@ Input word: `fahren`
   3. Tags (space-separated, e.g. `german verb a2`)
 - **Quoting:** Wrap a field in double quotes only if it contains a tab or newline. Escape internal `"` by doubling: `""`.
 
-## File naming
+## File naming and folder structure
 
-- Single word: `cards_<word>_<YYYYMMDD>.csv` — e.g. `cards_fahren_20260508.csv`
-- Multiple words in one run: `cards_batch_<YYYYMMDD>.csv`
-- Save to the project root.
-- If a file with the same name already exists, ask before overwriting.
+Files are organized into **weekly folders** at the project root.
+
+- **Folder name:** `cards/week_<YYYY>-W<WW>/` using ISO 8601 week numbering — e.g. `cards/week_2026-W19/` for the week of Mon 4 May – Sun 10 May 2026.
+- The week is determined by **today's date** when the file is generated (Monday is the first day of the week).
+- Create the folder if it doesn't already exist.
+- Single word: `<folder>/<word>_<YYYYMMDD>.csv` — e.g. `cards/week_2026-W19/fahren_20260508.csv`
+- Multiple words in one run: `<folder>/batch_<YYYYMMDD>.csv`
+- If a file with the same name already exists in the week folder, ask before overwriting.
 
 ## Sentence-writing rules
 
@@ -74,7 +78,7 @@ Keep the English hint **short** — one or two words, plus a brief note only whe
 
 1. I send one word, or a list of words.
 2. You generate the rows following the rules above.
-3. You write the CSV file to the project root using the file-naming convention.
+3. You write the CSV file into the current week's folder (creating it if needed) using the file-naming convention.
 4. You print the file path and show a preview of the rows in a small table so I can spot-check before importing.
 5. You do **not** ask clarifying questions for normal vocabulary — just pick reasonable sentences. Only ask if the input is ambiguous (e.g. a word that's both a noun and a verb with very different meanings, like `Bank`) or clearly mistyped.
 
