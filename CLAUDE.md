@@ -41,6 +41,37 @@ Files are organized into **weekly folders** at the project root.
 - Multiple words in one run: `<folder>/batch_<YYYYMMDD>.csv`
 - If a file with the same name already exists in the week folder, ask before overwriting.
 
+## Word tracking (`words_log.csv`)
+
+A log file `words_log.csv` lives at the **project root** (not inside a week folder) and records every word that has been turned into cards, across all weeks.
+
+**Format:** Comma-separated CSV **with a header row**:
+
+```
+word,added_date,week,file
+```
+
+**Columns:**
+1. `word` — the lemma / dictionary form (verbs in infinitive, nouns with their article, e.g. `fahren`, `der Hund`, `schön`).
+2. `added_date` — `YYYY-MM-DD`.
+3. `week` — ISO week, `YYYY-Www`.
+4. `file` — relative path of the generated card CSV, e.g. `week_2026-W19/cards_fahren_20260508.csv`.
+
+### Workflow integration
+
+**Before generating** cards for a word:
+- Read `words_log.csv` (create with the header row if it doesn't exist).
+- Look up the word **case-insensitively** against the `word` column.
+- If already present, tell me **when** and **in which file** it was added, then ask:
+  - **(a)** skip — don't regenerate,
+  - **(b)** generate fresh sentences anyway in this week's file (a new row gets appended to the log),
+  - **(c)** show me the existing file first.
+
+**After successfully writing** a card file:
+- Append one row per newly-added word to `words_log.csv`.
+- For batch runs: one row per word in the batch, all pointing to the same batch file.
+- Never rewrite or reorder the log — only append.
+
 ## Sentence-writing rules
 
 ### Level
@@ -77,10 +108,12 @@ Keep the English hint **short** — one or two words, plus a brief note only whe
 ## Workflow when I send a word
 
 1. I send one word, or a list of words.
-2. You generate the rows following the rules above.
-3. You write the CSV file into the current week's folder (creating it if needed) using the file-naming convention.
-4. You print the file path and show a preview of the rows in a small table so I can spot-check before importing.
-5. You do **not** ask clarifying questions for normal vocabulary — just pick reasonable sentences. Only ask if the input is ambiguous (e.g. a word that's both a noun and a verb with very different meanings, like `Bank`) or clearly mistyped.
+2. **Check `words_log.csv`** for each word (case-insensitively). If any are already logged, follow the duplicate-handling steps in the *Word tracking* section before continuing.
+3. You generate the rows following the rules above.
+4. You write the CSV file into the current week's folder (creating it if needed) using the file-naming convention.
+5. **Append a row to `words_log.csv`** for each newly added word.
+6. You print the card-file path and show a preview of the rows in a small table so I can spot-check before importing.
+7. You do **not** ask clarifying questions for normal vocabulary — just pick reasonable sentences. Only ask if the input is ambiguous (e.g. a word that's both a noun and a verb with very different meanings, like `Bank`), clearly mistyped, or already in the word log (per step 2).
 
 ## Importing into AnkiDroid (for reference)
 
