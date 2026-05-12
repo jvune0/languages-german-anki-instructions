@@ -29,6 +29,7 @@ Input word: `fahren`
   2. Back (the German word/form filling the blank)
   3. Tags (space-separated, e.g. `german verb a2`)
 - **Quoting:** Wrap a field in double quotes only if it contains a tab or newline. Escape internal `"` by doubling: `""`.
+- **Trailing newline:** Every generated CSV file must end with exactly one trailing newline character. This keeps the weekly bundle (see below) well-formed when files are concatenated.
 
 ## File naming and folder structure
 
@@ -40,6 +41,19 @@ Files are organized into **weekly folders** at the project root.
 - Single word: `<folder>/<word>_<YYYYMMDD>.csv` — e.g. `cards/week_2026-W19/fahren_20260508.csv`
 - Multiple words in one run: `<folder>/batch_<YYYYMMDD>.csv`
 - If a file with the same name already exists in the week folder, ask before overwriting.
+
+### Weekly bundle (`_all.csv`)
+
+Each week folder also contains a generated bundle file `_all.csv` — a concatenation of every other `*.csv` file in that folder. AnkiDroid imports one file at a time, so this bundle is the file I actually import at the end of the week.
+
+- **Path:** `cards/week_<YYYY>-W<WW>/_all.csv`
+- **Regenerate it after every successful write** of a card file in that week's folder (see Workflow step 6).
+- Always exclude `_all.csv` itself from the concatenation, otherwise the bundle keeps doubling on each rebuild.
+- Use a `find` invocation that handles the exclusion atomically:
+  ```bash
+  find cards/week_<YYYY>-W<WW> -maxdepth 1 -name '*.csv' ! -name '_all.csv' \
+       -exec cat {} + > cards/week_<YYYY>-W<WW>/_all.csv
+  ```
 
 ## Word tracking (`words_log.csv`)
 
@@ -120,12 +134,13 @@ Keep the English hint **short** — one or two words, plus a brief note only whe
 3. You generate the rows following the rules above.
 4. You write the CSV file into the current week's folder (creating it if needed) using the file-naming convention.
 5. **Append a row to `words_log.csv`** for each newly added word.
-6. You print the card-file path and show a preview of the rows in a small table so I can spot-check before importing.
-7. You do **not** ask clarifying questions for normal vocabulary — just pick reasonable sentences. Only ask if the input is ambiguous (e.g. a word that's both a noun and a verb with very different meanings, like `Bank`), clearly mistyped, or already in the word log (per step 2).
+6. **Rebuild the weekly bundle** `cards/week_<YYYY>-W<WW>/_all.csv` by concatenating every `*.csv` in the week folder *except* `_all.csv` itself (see *Weekly bundle* section above for the exact command).
+7. You print the card-file path and show a preview of the rows in a small table so I can spot-check before importing.
+8. You do **not** ask clarifying questions for normal vocabulary — just pick reasonable sentences. Only ask if the input is ambiguous (e.g. a word that's both a noun and a verb with very different meanings, like `Bank`), clearly mistyped, or already in the word log (per step 2).
 
 ## Importing into AnkiDroid (for reference)
 
-1. Move/share the `.csv` to the device.
+1. Move/share `cards/week_<YYYY>-W<WW>/_all.csv` (the weekly bundle) to the device.
 2. AnkiDroid → ⋮ menu → **Import** → select the file.
 3. Field separator: **Tab**.
 4. Map: field 1 → Front, field 2 → Back, field 3 → Tags.
