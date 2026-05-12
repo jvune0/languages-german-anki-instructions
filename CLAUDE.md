@@ -29,7 +29,6 @@ Input word: `fahren`
   2. Back (the German word/form filling the blank)
   3. Tags (space-separated, e.g. `german verb a2`)
 - **Quoting:** Wrap a field in double quotes only if it contains a tab or newline. Escape internal `"` by doubling: `""`.
-- **Trailing newline:** Every generated CSV file must end with exactly one trailing newline character. This keeps the weekly bundle (see below) well-formed when files are concatenated.
 
 ## File naming and folder structure
 
