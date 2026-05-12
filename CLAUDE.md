@@ -55,7 +55,7 @@ word,added_date,week,file
 1. `word` — the lemma / dictionary form (verbs in infinitive, nouns with their article, e.g. `fahren`, `der Hund`, `schön`).
 2. `added_date` — `YYYY-MM-DD`.
 3. `week` — ISO week, `YYYY-Www`.
-4. `file` — relative path of the generated card CSV, e.g. `week_2026-W19/cards_fahren_20260508.csv`.
+4. `file` — relative path of the generated card CSV, e.g. `week_2026-W19/fahren_20260508.csv`.
 
 ### Workflow integration
 
@@ -86,7 +86,15 @@ The three sentences for a single word should differ meaningfully — different t
 - Conjugate the verb to fit the subject; the Back is the conjugated form, not the infinitive.
 - Across the 3 cards, vary the form: e.g. present tense, a question with `du`/`ihr`, perfect tense (where the participle goes in the blank), modal-verb construction, or subordinate clause.
 - English hint: the infinitive, e.g. `(to go)`. For participles in perfect tense, hint as `(gone — past participle)`.
-- For separable verbs, the Back contains whichever piece is in the blank; if the whole verb is blanked in a subordinate clause, include both pieces joined.
+
+**Trennbare Verben (separable verbs)** — e.g. `aufstehen`, `anrufen`, `mitkommen`, `einkaufen`, `ausgehen`:
+- **At least one of the 3 cards must show the verb in separated form** — a main-clause sentence in present tense, simple past, or imperative, where the prefix moves to the end of the clause.
+- In the separated-form card, **blank both pieces**: the conjugated stem and the separated prefix each become their own `___` in the sentence (two blanks total). The Back contains exactly what fills the two blanks — the **conjugated** stem followed by the separated prefix, joined by a single space (e.g. `stehe auf` for the `ich`-form of `aufstehen`, `rufst an` for the `du`-form of `anrufen`).
+- Example for `aufstehen`:
+  - Front: `Ich ___ jeden Morgen um 7 Uhr ___. (to get up)` → Back: `stehe auf`
+  - Front: `Wann ___ ihr morgen ___? (to get up)` → Back: `steht auf`
+- The remaining 1–2 cards can use the verb in non-separated positions, e.g. subordinate clauses (`…, weil ich früh aufstehe`), infinitive constructions (`Ich muss früh aufstehen`), or perfect tense with the joined participle (`Ich bin früh aufgestanden`).
+- If the whole verb is blanked in a non-separated position, the Back contains the verb in its standard joined form (e.g. `aufstehen`, `aufgestanden`).
 
 **Nouns**
 - Prefer blanking the article + noun together so the case is part of the answer, e.g. Front: `Ich sehe ___. (the dog)` → Back: `den Hund`.
