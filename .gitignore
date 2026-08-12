@@ -1,0 +1,3 @@
+# Data lives in the sibling anki-data/ repo — linked via symlinks by setup.sh
+cards
+words_log.csv

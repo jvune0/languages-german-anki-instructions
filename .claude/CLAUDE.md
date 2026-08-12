@@ -56,7 +56,7 @@ Each week folder also contains a generated bundle file `_all.csv` — a concaten
 
 ## Word tracking (`words_log.csv`)
 
-A log file `words_log.csv` lives at the **project root** (not inside a week folder) and records every word that has been turned into cards, across all weeks.
+A log file `words_log.csv` lives inside the **`cards/` folder** (i.e. `cards/words_log.csv`) and records every word that has been turned into cards, across all weeks.
 
 **Format:** Comma-separated CSV **with a header row**:
 
@@ -68,12 +68,12 @@ word,added_date,week,file
 1. `word` — the lemma / dictionary form (verbs in infinitive, nouns with their article, e.g. `fahren`, `der Hund`, `schön`).
 2. `added_date` — `YYYY-MM-DD`.
 3. `week` — ISO week, `YYYY-Www`.
-4. `file` — relative path of the generated card CSV, e.g. `week_2026-W19/fahren_20260508.csv`.
+4. `file` — path of the generated card CSV relative to `cards/`, e.g. `week_2026-W19/fahren_20260508.csv`.
 
 ### Workflow integration
 
 **Before generating** cards for a word:
-- Read `words_log.csv` (create with the header row if it doesn't exist).
+- Read `cards/words_log.csv` (create with the header row if it doesn't exist).
 - Look up the word **case-insensitively** against the `word` column.
 - If already present, tell me **when** and **in which file** it was added, then ask:
   - **(a)** skip — don't regenerate,
@@ -81,7 +81,7 @@ word,added_date,week,file
   - **(c)** show me the existing file first.
 
 **After successfully writing** a card file:
-- Append one row per newly-added word to `words_log.csv`.
+- Append one row per newly-added word to `cards/words_log.csv`.
 - For batch runs: one row per word in the batch, all pointing to the same batch file.
 - Never rewrite or reorder the log — only append.
 
@@ -129,10 +129,10 @@ Keep the English hint **short** — one or two words, plus a brief note only whe
 ## Workflow when I send a word
 
 1. I send one word, or a list of words.
-2. **Check `words_log.csv`** for each word (case-insensitively). If any are already logged, follow the duplicate-handling steps in the *Word tracking* section before continuing.
+2. **Check `cards/words_log.csv`** for each word (case-insensitively). If any are already logged, follow the duplicate-handling steps in the *Word tracking* section before continuing.
 3. You generate the rows following the rules above.
 4. You write the CSV file into the current week's folder (creating it if needed) using the file-naming convention.
-5. **Append a row to `words_log.csv`** for each newly added word.
+5. **Append a row to `cards/words_log.csv`** for each newly added word.
 6. **Rebuild the weekly bundle** `cards/week_<YYYY>-W<WW>/_all.csv` by concatenating every `*.csv` in the week folder *except* `_all.csv` itself (see *Weekly bundle* section above for the exact command).
 7. You print the card-file path and show a preview of the rows in a small table so I can spot-check before importing.
 8. You do **not** ask clarifying questions for normal vocabulary — just pick reasonable sentences. Only ask if the input is ambiguous (e.g. a word that's both a noun and a verb with very different meanings, like `Bank`), clearly mistyped, or already in the word log (per step 2).
