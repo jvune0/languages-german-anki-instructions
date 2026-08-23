@@ -48,10 +48,10 @@ Each week folder also contains a generated bundle file `_all.csv` — a concaten
 - **Path:** `cards/week_<YYYY>-W<WW>/_all.csv`
 - **Regenerate it after every successful write** of a card file in that week's folder (see Workflow step 6).
 - Always exclude `_all.csv` itself from the concatenation, otherwise the bundle keeps doubling on each rebuild.
-- Use a `find` invocation that handles the exclusion atomically:
+- Card files are written **without a trailing newline**, so plain `cat` would glue the last row of one file to the first row of the next. Use `awk 1` instead — it terminates every line — and strip the final newline with `head -c -1` so the bundle keeps the same no-trailing-newline convention:
   ```bash
   find cards/week_<YYYY>-W<WW> -maxdepth 1 -name '*.csv' ! -name '_all.csv' \
-       -exec cat {} + > cards/week_<YYYY>-W<WW>/_all.csv
+       -exec awk 1 {} + | head -c -1 > cards/week_<YYYY>-W<WW>/_all.csv
   ```
 
 ## Word tracking (`words_log.csv`)
