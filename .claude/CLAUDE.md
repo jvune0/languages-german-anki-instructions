@@ -123,6 +123,18 @@ The three sentences for a single word should differ meaningfully — different t
 - Use in natural sentences; the Back is just the word.
 - English hint: closest English equivalent, or a brief gloss if no clean one-word match exists, e.g. `(although)`, `(by the way)`.
 
+### Usefulness check
+
+Before generating cards, judge whether the word is actually worth learning at A2–B1/B2 level. **Ask me first** — don't generate — if the word is:
+
+- **Outdated / archaic** — no longer used in modern German, or only in historical texts (e.g. `weiland`, `Kutscher`).
+- **Very rare** — literary, poetic, or so infrequent that I'd almost never meet it in reading or conversation.
+- **Too specific / specialised** — narrow technical, legal, medical, or military jargon with no everyday use (e.g. `Schraubenschlüsselsatz`).
+
+When one of these applies, say **why** in one short line, offer a more common alternative if there is a natural one (e.g. an everyday synonym or the base word it derives from), and ask whether I still want the cards. Generate them without further questions if I say yes.
+
+This check is a judgement call, not a hard filter — a word that is merely formal, bookish, or a bit advanced (typical B2/C1 vocabulary) is fine to generate straight away.
+
 ### Hints
 Keep the English hint **short** — one or two words, plus a brief note only when the form genuinely needs disambiguation (e.g. `— past participle`, `— dative`).
 
@@ -130,12 +142,13 @@ Keep the English hint **short** — one or two words, plus a brief note only whe
 
 1. I send one word, or a list of words.
 2. **Check `cards/words_log.csv`** for each word (case-insensitively). If any are already logged, follow the duplicate-handling steps in the *Word tracking* section before continuing.
-3. You generate the rows following the rules above.
-4. You write the CSV file into the current week's folder (creating it if needed) using the file-naming convention.
-5. **Append a row to `cards/words_log.csv`** for each newly added word.
-6. **Rebuild the weekly bundle** `cards/week_<YYYY>-W<WW>/_all.csv` by concatenating every `*.csv` in the week folder *except* `_all.csv` itself (see *Weekly bundle* section above for the exact command).
-7. You print the card-file path and show a preview of the rows in a small table so I can spot-check before importing.
-8. You do **not** ask clarifying questions for normal vocabulary — just pick reasonable sentences. Only ask if the input is ambiguous (e.g. a word that's both a noun and a verb with very different meanings, like `Bank`), clearly mistyped, or already in the word log (per step 2).
+3. **Check whether the word is worth learning** (see *Usefulness check* above). If it looks archaic, very rare, or highly specialised, ask me before generating anything.
+4. You generate the rows following the rules above.
+5. You write the CSV file into the current week's folder (creating it if needed) using the file-naming convention.
+6. **Append a row to `cards/words_log.csv`** for each newly added word.
+7. **Rebuild the weekly bundle** `cards/week_<YYYY>-W<WW>/_all.csv` by concatenating every `*.csv` in the week folder *except* `_all.csv` itself (see *Weekly bundle* section above for the exact command).
+8. You print the card-file path and show a preview of the rows in a small table so I can spot-check before importing.
+9. You do **not** ask clarifying questions for normal vocabulary — just pick reasonable sentences. Only ask if the input is ambiguous (e.g. a word that's both a noun and a verb with very different meanings, like `Bank`), clearly mistyped, already in the word log (per step 2), or fails the *Usefulness check* (per step 3).
 
 ## Importing into AnkiDroid (for reference)
 
